@@ -74,6 +74,7 @@ app.get("/",middleware.requireLogin, (req, res)=>{
      socket.on("setup", userData => {
         socket.join(userData._id);
         socket.emit("connected");
+        console.log("connected to socket");
     })
 
     socket.on("join room", room => socket.join(room));
