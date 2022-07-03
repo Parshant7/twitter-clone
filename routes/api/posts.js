@@ -69,7 +69,6 @@ router.get("/:id", async (req,res,next)=>{
 });
 
 router.post("/", upload.single("croppedImage"), async (req,res,next)=>{
-    console.log("in the post server");
     if(!req.body.content && !req.file){
         console.log("Content params not sent with request");
         return res.sendStatus(400);

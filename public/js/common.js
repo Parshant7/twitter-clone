@@ -252,8 +252,6 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
     var formData = new FormData();
     formData.append("content", textbox.val());
 
-    console.log(textbox.val());
-
     if (isModal) {
         var id = button.data().id;
         if (id == null) return alert("ID is null");
@@ -269,7 +267,6 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
     }
 
     //-----------------
-    console.log(formData);
     $.ajax({
         url: '/api/posts',
         type: 'POST',
@@ -279,7 +276,6 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
         success: (postData) => {
             if(postData.replyTo){
                 emitNotification(postData.replyTo.postedBy)
-                console.log("postData");
             }
             else{
                 var html = createPostHtml(postData);
@@ -291,10 +287,9 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
                 textbox.val("");
                 textbox.css({'height':'50px'})
                 $(".tweetImageContainer").empty();
-                //$("#postTextarea").style.height = '50px';
                 button.prop("disabled", true);
             }
-            //location.reload();
+            location.reload();
         },
         fail: function(xhr, textStatus, errorThrown){
             console.log(textStatus);
