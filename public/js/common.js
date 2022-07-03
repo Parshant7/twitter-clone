@@ -252,10 +252,11 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
     var formData = new FormData();
     formData.append("content", textbox.val());
 
+    console.log(textbox.val());
+
     if (isModal) {
         var id = button.data().id;
-        if (id == null)
-        return alert("ID is null");
+        if (id == null) return alert("ID is null");
         formData.append("replyTo", id);
     }
     
@@ -268,9 +269,9 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
     }
 
     //-----------------
-
+    console.log(formData);
     $.ajax({
-        url: 'api/posts',
+        url: '/api/posts',
         type: 'POST',
         data: formData,
         processData: false,
@@ -278,14 +279,14 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
         success: (postData) => {
             if(postData.replyTo){
                 emitNotification(postData.replyTo.postedBy)
-                location.reload();
+                console.log("postData");
             }
             else{
                 var html = createPostHtml(postData);
-
+                
                 if( $(".postsContainer").text() == 'Nothing to show.')
-                    $(".postsContainer").html("");
-
+                $(".postsContainer").html("");
+                
                 $(".postsContainer").prepend(html);
                 textbox.val("");
                 textbox.css({'height':'50px'})
@@ -293,10 +294,45 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
                 //$("#postTextarea").style.height = '50px';
                 button.prop("disabled", true);
             }
+            //location.reload();
+        },
+        fail: function(xhr, textStatus, errorThrown){
+            console.log(textStatus);
+            console.log(xhr);
         }
     })
 
 })
+
+// $("#submitPostButton, #submitReplyButton").click( (event)=>{
+//     var button = $(event.target);
+    
+//     var isModal = button.parents(".modal").length == 1;
+//     var textbox = isModal? $("#replyTextarea") : $("#postTextarea");
+    
+//     var data = {
+//         content: textbox.val()
+//     }
+
+//     if(isModal){
+//         var id = button.data().id;
+//         if(id == null) return alert("ID is null");
+//         data.replyTo = id;
+//     }
+
+//     $.post("/api/posts", data, (postData, status, xhr)=>{
+
+//         if(postData.replyTo){
+//             location.reload();
+//         }
+//         else{
+//             var html = createPostHtml(postData);
+//             $(".postsContainer").prepend(html);
+//             textbox.val("");
+//             button.prop("disabled", true);
+//         }
+//     })
+// })
 
 $('#userSearchTextbox').keydown( (event) => {
     clearTimeout(timer);

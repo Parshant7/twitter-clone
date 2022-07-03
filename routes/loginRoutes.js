@@ -12,13 +12,14 @@ app.set("view engine","pug");
 app.set("views","views");
 
 router.get("/",(req,res,next)=>{
-    res.status(200).render("login");
+    res.status(200).render("login",{pageTitle: "login"});
 });
 
 router.post("/", async (req,res,next)=>{
     
     var payload = req.body;
-
+    payload.pageTitle = "login";
+    
     if(req.body.logUsername && req.body.logPassword){
 
         var user = await User.findOne({

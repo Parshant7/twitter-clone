@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 router.get("/",(req, res, next)=>{
-    res.status(200).render("register");
+    res.status(200).render("register",{pageTitle: "Register"});
 })
 
 router.post("/", async (req, res, next)=>{
@@ -23,6 +23,8 @@ router.post("/", async (req, res, next)=>{
     var email = req.body.email.trim();
     var password = req.body.password;
     var payload = req.body;
+
+    payload.pageTitle = "Register";
 
     if(firstName && lastName && username && email && password){
 
