@@ -20,7 +20,7 @@ const s3 = new aws.S3(
 const upload = multer({
     storage: multerS3({
         s3,
-        bucket: 'twitter-clone-images-bucket',
+        bucket: 'twitterclone2',
         acl:'public-read',
         metadata: (req, file, cb) => {
             cb(null, { fieldName: file.fieldname})
