@@ -186,7 +186,7 @@ button span{
     margin-left:auto;
 }
 
-#submitPostButton:disabled{
+#submitPostButton:disabled, #submitPostButton.disabled {
     background-color: var(--blueLight);
 }
 

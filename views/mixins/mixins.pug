@@ -6,10 +6,15 @@ mixin createPostForm(userLoggedIn)
             textarea#postTextarea(placeholder="What's happening", oninput="auto_grow(this)")
             .tweetImageContainer
 
+                
             .buttonsContainer
                 button.addTweetImage(data-toggle="modal", data-target="#tweetImageUploadModal")
                     i.las.la-image
-                button#submitPostButton(disabled="") Post
+                button#submitPostButton(disabled="") 
+                    .loadingSpinnerContainer
+                        span#buttonText Post 
+                        img#loadingSpinner(src="/images/loadingSpinner.gif", alt="Loading Spinner", style="margin-left: 10px; height: 20px; display: none")
+
 
 mixin createReplyModal(userLoggedIn)
     #replyModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='replyModalLabel' aria-hidden='true')

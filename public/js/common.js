@@ -248,6 +248,14 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
 
     var isModal = button.parents(".modal").length == 1;
     var textbox = isModal ? $("#replyTextarea") : $("#postTextarea");
+    var buttonText = button.find("#buttonText");
+    var loadingSpinner = button.find("#loadingSpinner");
+
+    // Show spinner and hide "Post" text
+    loadingSpinner.show();
+    button.prop("disabled", true).addClass("disabled");
+    console.log(button);
+    button[0].prop("disabled", true);
 
     var formData = new FormData();
     formData.append("content", textbox.val());
@@ -266,6 +274,7 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
         formData.append("croppedImage", blob);
     }
 
+    
     //-----------------
     $.ajax({
         url: '/api/posts',
@@ -274,6 +283,7 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
         processData: false,
         contentType: false,
         success: (postData) => {
+            
             if(postData.replyTo){
                 emitNotification(postData.replyTo.postedBy)
             }
@@ -287,7 +297,8 @@ $("#submitPostButton, #submitReplyButton").click( async (event) => {
                 textbox.val("");
                 textbox.css({'height':'50px'})
                 $(".tweetImageContainer").empty();
-                button.prop("disabled", true);
+                loadingSpinner.hide();
+            
             }
             location.reload();
         },
@@ -542,7 +553,8 @@ function createPostHtml(postData, largeFont = false){
     if(postData.tweetImage !== undefined) {
         image = `<div class="postImageContainer">
                     <img src='${postData.tweetImage}'>
-                </div>`
+                </div>
+                `
     }
 
     var buttons = "";
